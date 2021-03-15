@@ -16,10 +16,19 @@ resource "aws_subnet" "subnet" {
   vpc_id                  = aws_vpc.bi_vpc.id
   cidr_block              = cidrsubnet(aws_vpc.bi_vpc.cidr_block, 8, count.index)
   availability_zone       = data.aws_availability_zones.available.names[count.index]
-  map_public_ip_on_launch = false
+  map_public_ip_on_launch = true
 
 }
 
+#resource "aws_subnet" "public_subnet" {
+#  count = length(data.aws_availability_zones.available.names)
+#
+#  vpc_id                  = aws_vpc.bi_vpc.id
+#  cidr_block              = cidrsubnet(aws_vpc.bi_vpc.cidr_block, 8, count.index)
+#  availability_zone       = data.aws_availability_zones.available.names[count.index]
+#  map_public_ip_on_launch = true
+#
+#}
 
 resource "aws_db_subnet_group" "subnet_group" {
   name        = "bi-subnet-group"
