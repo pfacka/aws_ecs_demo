@@ -20,7 +20,7 @@ resource "aws_security_group" "dwh_management_sg" {
 }
 
 data "template_file" "task_file" {
-  template = file("${path.module}/management_task.bak.json")
+  template = file("${path.module}/sshd_test.json")
   vars = {}
 
 }
