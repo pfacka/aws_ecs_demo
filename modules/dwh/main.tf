@@ -30,7 +30,7 @@ resource "aws_db_subnet_group" "subnet_group" {
 resource "aws_db_instance" "dwh_instance" {
   identifier            = "prod-dwh"
   name                  = "dwh"
-  allocated_storage     = 20
+  allocated_storage     = 1
   max_allocated_storage = 1000
   storage_type          = "gp2"
   engine                = var.dwh_engine
@@ -69,11 +69,18 @@ resource "postgresql_role" "etl_role" {
   login       = true
 }
 
-resource "postgresql_database" "dwh_database" {
-  name              = "dwh_pliat"
-  owner             = var.master_username
+resource "postgresql_database" "database" {
+  name              = "dwh_getpliant"
+  owner             = var.etl_username
   template          = "template0"
-  lc_collate        = "C"
+  lc_collate        = "en_US.UTF-8"
   connection_limit  = -1
   allow_connections = true
+}
+
+resource "postgresql_grant" "etl_grant" {
+  database    = "dwh_getpliant"
+  role        = var.etl_username
+  object_type = "database"
+  privileges  = ["CREATE", "CONNECT", "TEMPORARY"]
 }

@@ -1,6 +1,6 @@
 
 resource "aws_security_group" "dwh_management_sg" {
-  name        = ""
+  name        = "dwh-management-service-sg"
   description = "DWH management service sg"
   vpc_id      = var.vpc_id
 
@@ -58,5 +58,3 @@ resource "aws_ecs_service" "dwh_management_service" {
   }
 
 }
-
-
