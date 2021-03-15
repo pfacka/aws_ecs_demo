@@ -4,9 +4,9 @@ resource "aws_security_group" "dwh_sg" {
   vpc_id      = var.vpc_id
 
   ingress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
     cidr_blocks     = [var.private_cidr]
   }
 
