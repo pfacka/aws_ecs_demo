@@ -5,14 +5,14 @@ resource "aws_security_group" "dwh_management_sg" {
   vpc_id      = var.vpc_id
 
   ingress {
-    protocol    = "TCP"
-    from_port   = 22
-    to_port     = 22
-    cidr_blocks = ["0.0.0.0/0"]
+    protocol    = "-1"
+    from_port   = 0
+    to_port     = 0
+    cidr_blocks = [var.private_cidr]
   }
 
   egress {
-    protocol    = "TCP"
+    protocol    = "-1"
     from_port   = 0
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
@@ -44,11 +44,13 @@ resource "aws_ecs_service" "dwh_management_service" {
   name                              = "dwh-management-service"
   cluster                           = var.ecs_cluster_id
   task_definition                   = aws_ecs_task_definition.task.id
+  launch_type                       = "FARGATE"
   desired_count                     = 1
 
   network_configuration {
-    subnets         = var.private_subnet_ids
-    security_groups = [aws_security_group.dwh_management_sg.id]
+    subnets          = var.private_subnet_ids
+    security_groups  = [aws_security_group.dwh_management_sg.id]
+    assign_public_ip = true
   }
 }
 
