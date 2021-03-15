@@ -27,12 +27,12 @@ module "dwh" {
   region               = var.region
   vpc_id               = var.vpc_id
   private_cidr         = var.private_cidr
-  subnet_group_name    = var.subnet_group_name
-  master_password      = data.aws_secretsmanager_secret_version.dwh_password.secret_string
-  etl_password         = data.aws_secretsmanager_secret_version.etl_password.secret_string
 
   ecs_cluster_id       = aws_ecs_cluster.bi_cluster.id
   private_subnet_ids   = var.private_subnet_ids
+  master_password      = data.aws_secretsmanager_secret_version.dwh_password.secret_string
+  etl_password         = data.aws_secretsmanager_secret_version.etl_password.secret_string
+
 }
 
 

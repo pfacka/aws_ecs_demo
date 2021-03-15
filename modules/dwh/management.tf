@@ -34,9 +34,7 @@ resource "aws_ecs_task_definition" "task" {
   task_role_arn            = aws_iam_role.task_role.arn
   execution_role_arn       = aws_iam_role.task_execution_role.arn
 
-
   container_definitions = data.template_file.task_file.rendered
-  
   
 }
 
@@ -52,6 +50,13 @@ resource "aws_ecs_service" "dwh_management_service" {
     security_groups  = [aws_security_group.dwh_management_sg.id]
     assign_public_ip = true
   }
+
+  lifecycle {
+    ignore_changes = [
+      task_definition,
+    ]
+  }
+
 }
 
 
